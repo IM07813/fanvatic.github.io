@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fanvatic</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #c9c9c9;
+            color: rgb(0, 0, 0);
+            padding: 30px;
+        }
+        h1 {
+            color: #0040ff;
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .input-container {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        select, input {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            background-color: #fff;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            color: #fff;
+            background-color: #0040ff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        h2 {
+            text-align: center;
+            font-size: 24px;
+        }
+        #teamStats {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        #homeTeamStats, #awayTeamStats {
+            width: 48%;
+        }
+        @media (max-width: 768px) {
+            #homeTeamStats, #awayTeamStats {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Fanvatic</h1>
+    <div class="input-container">
+        <label for="homeTeam">Home Team:</label>
+        <select id="homeTeam">
+            <!-- Add your NFL team options here -->
+            <option value="Arizona Cardinals">Arizona Cardinals</option>
+            <option value="Atlanta Falcons">Atlanta Falcons</option>
+            <option value="Baltimore Ravens">Baltimore Ravens</option>
+            <option value="Buffalo Bills">Buffalo Bills</option>
+            <option value="Carolina Panthers">Carolina Panthers</option>
+            <option value="Chicago Bears">Chicago Bears</option>
+            <option value="Cincinnati Bengals">Cincinnati Bengals</option>
+            <option value="Cleveland Browns">Cleveland Browns</option>
+            <option value="Dallas Cowboys">Dallas Cowboys</option>
+            <option value="Denver Broncos">Denver Broncos</option>
+            <option value="Detroit Lions">Detroit Lions</option>
+            <option value="Green Bay Packers">Green Bay Packers</option>
+            <option value="Houston Texans">Houston Texans</option>
+            <option value="Indianapolis Colts">Indianapolis Colts</option>
+            <option value="Jacksonville Jaguars">Jacksonville Jaguars</option>
+            <option value="Kansas City Chiefs">Kansas City Chiefs</option>
+            <option value="Las Vegas Raiders">Las Vegas Raiders</option>
+            <option value="Los Angeles Chargers">Los Angeles Chargers</option>
+            <option value="Los Angeles Rams">Los Angeles Rams</option>
+            <option value="Miami Dolphins">Miami Dolphins</option>
+            <option value="Minnesota Vikings">Minnesota Vikings</option>
+            <option value="New England Patriots">New England Patriots</option>
+            <option value="New Orleans Saints">New Orleans Saints</option>
+            <option value="New York Giants">New York Giants</option>
+            <option value="New York Jets">New York Jets</option>
+            <option value="Philadelphia Eagles">Philadelphia Eagles</option>
+            <option value="Pittsburgh Steelers">Pittsburgh Steelers</option>
+            <option value="San Francisco 49ers">San Francisco 49ers</option>
+            <option value="Seattle Seahawks">Seattle Seahawks</option>
+            <option value="Tampa Bay Buccaneers">Tampa Bay Buccaneers</option>
+            <option value="Tennessee Titans">Tennessee Titans</option>
+            <option value="Washington Commanders">Washington Commanders</option>
+        </select>
+    </div>
+    <div class="input-container">
+        <label for="awayTeam">Away Team:</label>
+        <select id="awayTeam">
+            <!-- Add your NFL team options here -->
+            <option value="Arizona Cardinals">Arizona Cardinals</option>
+            <option value="Atlanta Falcons">Atlanta Falcons</option>
+            <option value="Baltimore Ravens">Baltimore Ravens</option>
+            <option value="Buffalo Bills">Buffalo Bills</option>
+            <option value="Carolina Panthers">Carolina Panthers</option>
+            <option value="Chicago Bears">Chicago Bears</option>
+            <option value="Cincinnati Bengals">Cincinnati Bengals</option>
+            <option value="Cleveland Browns">Cleveland Browns</option>
+            <option value="Dallas Cowboys">Dallas Cowboys</option>
+            <option value="Denver Broncos">Denver Broncos</option>
+            <option value="Detroit Lions">Detroit Lions</option>
+            <option value="Green Bay Packers">Green Bay Packers</option>
+            <option value="Houston Texans">Houston Texans</option>
+            <option value="Indianapolis Colts">Indianapolis Colts</option>
+            <option value="Jacksonville Jaguars">Jacksonville Jaguars</option>
+            <option value="Kansas City Chiefs">Kansas City Chiefs</option>
+            <option value="Las Vegas Raiders">Las Vegas Raiders</option>
+            <option value="Los Angeles Chargers">Los Angeles Chargers</option>
+            <option value="Los Angeles Rams">Los Angeles Rams</option>
+            <option value="Miami Dolphins">Miami Dolphins</option>
+            <option value="Minnesota Vikings">Minnesota Vikings</option>
+            <option value="New England Patriots">New England Patriots</option>
+            <option value="New Orleans Saints">New Orleans Saints</option>
+            <option value="New York Giants">New York Giants</option>
+            <option value="New York Jets">New York Jets</option>
+            <option value="Philadelphia Eagles">Philadelphia Eagles</option>
+            <option value="Pittsburgh Steelers">Pittsburgh Steelers</option>
+            <option value="San Francisco 49ers">San Francisco 49ers</option>
+            <option value="Seattle Seahawks">Seattle Seahawks</option>
+            <option value="Tampa Bay Buccaneers">Tampa Bay Buccaneers</option>
+            <option value="Tennessee Titans">Tennessee Titans</option>
+            <option value="Washington Commanders">Washington Commanders</option>
+        </select>
+    </div>
+    <div id="teamStats">
+        <div id="homeTeamStats"></div>
+        <div id="awayTeamStats"></div>
+    </div>
+    <button onclick="calculateScore()">Calculate Projected Score</button>
+    <h2 id="result"></h2>
+
+    <script>
+        const statLabels = [
+            "Projected passing TDs",
+            "Projected passer Rating",
+            "Projected rushing TDs",
+            "Projected Turnovers",
+            "Projected Punts",
+            "Projected Plays"
+        ];
+
+        function populateTeamStats(teamId) {
+            const teamStatsContainer = document.getElementById(teamId);
+            teamStatsContainer.innerHTML = `<h3>${teamId === 'homeTeamStats' ? 'Home Team Stats' : 'Away Team Stats'}</h3>`;
+            statLabels.forEach((label, index) => {
+                teamStatsContainer.innerHTML += `
+                    <div class="input-container">
+                        <label for="${teamId}-${index}">${label}:</label>
+                        <input type="number" id="${teamId}-${index}" step="0.1">
+                    </div>
+                `;
+            });
+        }
+
+        populateTeamStats("homeTeamStats");
+        populateTeamStats("awayTeamStats");
+
+        function calculateScore() {
+            const homeStats = statLabels.map((_, index) => parseFloat(document.getElementById(`homeTeamStats-${index}`).value));
+            const awayStats = statLabels.map((_, index) => parseFloat(document.getElementById(`awayTeamStats-${index}`).value));
+
+            const homeTeamScore = -2.3635 + (homeStats[0] * 4.59) + (homeStats[1] * 0.0537) + (homeStats[2] * 4.75) + (awayStats[3] * 2.16) + (homeStats[4] * -1.777) + (awayStats[4] * 1.248) + (awayStats[5] * 0.135) + 1;
+            const awayTeamScore = -2.3635 + (awayStats[0] * 4.59) + (awayStats[1] * 0.0537) + (awayStats[2] * 4.75) + (homeStats[3] * 2.16) + (awayStats[4] * -1.777) + (homeStats[4] * 1.248) + (homeStats[5] * 0.135) - 1;
+
+            const result = `${homeTeamScore.toFixed(1)} to ${awayTeamScore.toFixed(1)}`;
+            document.getElementById("result").innerText = result;
+        }
+    </script>
+</body>
+</html>
+
